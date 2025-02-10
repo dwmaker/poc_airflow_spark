@@ -15,9 +15,22 @@ AWS_BUCKET_NAME=your_s3_bucket_name
 
 Substitua `your_aws_access_key_id`, `your_aws_secret_access_key` e `your_s3_bucket_name` pelos valores correspondentes da sua conta AWS.
 
+### Executando o Docker Compose
+
+Após configurar o `envfile.env`, execute os seguintes comandos para iniciar os containers:
+
+```sh
+docker compose up
+```
+
+Para parar os container execute o seguinte comando:
+```sh
+docker compose down
+```
+
 ### Configuração da Conexão com Spark
 
-Para configurar a conexão com o Spark, execute os seguintes comandos:
+A configuração da conexão com o Spark deve ser feita enquanto o Docker Compose está em execução. Execute os seguintes comandos:
 
 ```sh
 docker exec poc_airflow_spark-airflow-worker-1 airflow connections delete spark_default
