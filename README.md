@@ -1,6 +1,29 @@
 # poc_airflow_spark
 Esta é uma Prova de Conceito (POC) de desenvolvimento que integra as tecnologias Airflow, Spark e S3. Nesta POC, o Airflow e o Spark serão executados em ambiente local, permitindo o desenvolvimento e teste de fluxos de dados complexos. O S3, por sua vez, será utilizado como armazenamento de dados na nuvem da AWS, demonstrando a capacidade de integração com serviços externos e escalabilidade da solução.
 
+## Configuração do Ambiente
+
+### Arquivo de Variáveis de Ambiente
+
+Crie um arquivo chamado `envfile.env` na raiz do projeto com as seguintes variáveis de ambiente:
+
+```
+AWS_ACCESS_KEY_ID=your_aws_access_key_id
+AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key
+AWS_BUCKET_NAME=your_s3_bucket_name
+```
+
+Substitua `your_aws_access_key_id`, `your_aws_secret_access_key` e `your_s3_bucket_name` pelos valores correspondentes da sua conta AWS.
+
+### Configuração da Conexão com Spark
+
+Para configurar a conexão com o Spark, execute os seguintes comandos:
+
+```sh
+docker exec poc_airflow_spark-airflow-worker-1 airflow connections delete spark_default
+docker exec poc_airflow_spark-airflow-worker-1 airflow connections add spark_default --conn-description "Conexão default com Spark" --conn-host "spark://spark-master" --conn-port "7077" --conn-type="spark"
+```
+
 ## DAGs
 
 ### dag_farmarcas
@@ -33,3 +56,7 @@ O Docker Compose possui os seguintes containers:
 ### Ambiente Spark
 - **spark-master:** Nó mestre do cluster Spark, responsável por gerenciar os recursos e distribuir as tarefas entre os nós trabalhadores.
 - **spark-worker:** Nó trabalhador do cluster Spark, responsável por executar as tarefas distribuídas pelo nó mestre.
+
+## Contato
+
+Para entrar em contato com o desenvolvedor, visite [www.dwmaker.com.br](http://www.dwmaker.com.br).

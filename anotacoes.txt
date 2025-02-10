@@ -15,6 +15,7 @@
     docker exec poc_airflow_spark-airflow-worker-1 airflow tasks test dag_farmarcas publicacao-comments
  
 ## TESTES SPARK_SUBMIT
+    docker exec poc_airflow_spark-airflow-worker-1 spark-submit --master spark://spark-master:7077 --packages org.apache.hadoop:hadoop-aws:3.3.2,com.amazonaws:aws-java-sdk-pom:1.12.365 /opt/airflow/pyspark_scripts/ingestao-comments.py
     docker exec poc_airflow_spark-airflow-worker-1 spark-submit --master spark://spark-master:7077 --packages org.apache.hadoop:hadoop-aws:3.3.2,com.amazonaws:aws-java-sdk-pom:1.12.365 /opt/airflow/pyspark_scripts/transformacao-posts.py
     docker exec poc_airflow_spark-airflow-worker-1 spark-submit --master spark://spark-master:7077 --packages org.apache.hadoop:hadoop-aws:3.3.2,com.amazonaws:aws-java-sdk-pom:1.12.365 /opt/airflow/pyspark_scripts/publicacao-comments.py
 
@@ -22,3 +23,6 @@
     docker exec poc_airflow_spark-airflow-worker-1 airflow connections list
     docker exec poc_airflow_spark-airflow-worker-1 airflow connections delete spark_default
     docker exec poc_airflow_spark-airflow-worker-1 airflow connections add spark_default --conn-description "Conexão default com Spark"   --conn-host "spark://spark-master" --conn-port "7077"  --conn-type="spark"
+
+### Forçando o refresh das DAGs 
+    docker exec poc_airflow_spark-airflow-webserver-1 python -c "from airflow.models import DagBag; d = DagBag();" 
