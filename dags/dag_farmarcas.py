@@ -44,5 +44,6 @@ with DAG("dag_farmarcas", start_date=datetime(2025,1,1), schedule_interval=None)
         verbose=False
     )
     
-    ingestao_comments >> ingestao_posts >> transformacao_comments >> transformacao_posts >> publicacao_comments
-    
+    ingestao_comments >> transformacao_comments
+    ingestao_posts >> transformacao_posts
+    [transformacao_comments, transformacao_posts] >> publicacao_comments

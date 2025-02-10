@@ -2,21 +2,23 @@
 ## GERENCIAMENTO DOCKER 
     docker compose down
     docker compose up spark-worker -d --build      
-    docker compose up airflow-worker -d --build      
-    docker exec aiflow-farmarcas-v3-airflow-worker-1 airflow dags test dag_farmarcas
+    docker compose up airflow-worker -d --build     
+
+## TESTE DA DAG 
+    docker exec poc_airflow_spark-airflow-worker-1 airflow dags test dag_farmarcas
 
 ## TESTES DE TASKS
-    docker exec aiflow-farmarcas-v3-airflow-worker-1 airflow tasks test dag_farmarcas ingestao-comments
-    docker exec aiflow-farmarcas-v3-airflow-worker-1 airflow tasks test dag_farmarcas ingestao-posts
-    docker exec aiflow-farmarcas-v3-airflow-worker-1 airflow tasks test dag_farmarcas transformacao-comments
-    docker exec aiflow-farmarcas-v3-airflow-worker-1 airflow tasks test dag_farmarcas transformacao-posts
-    docker exec aiflow-farmarcas-v3-airflow-worker-1 airflow tasks test dag_farmarcas publicacao-comments
+    docker exec poc_airflow_spark-airflow-worker-1 airflow tasks test dag_farmarcas ingestao-comments
+    docker exec poc_airflow_spark-airflow-worker-1 airflow tasks test dag_farmarcas ingestao-posts
+    docker exec poc_airflow_spark-airflow-worker-1 airflow tasks test dag_farmarcas transformacao-comments
+    docker exec poc_airflow_spark-airflow-worker-1 airflow tasks test dag_farmarcas transformacao-posts
+    docker exec poc_airflow_spark-airflow-worker-1 airflow tasks test dag_farmarcas publicacao-comments
  
 ## TESTES SPARK_SUBMIT
-    docker exec aiflow-farmarcas-v3-airflow-worker-1 spark-submit --master spark://spark-master:7077 --packages org.apache.hadoop:hadoop-aws:3.3.2,com.amazonaws:aws-java-sdk-pom:1.12.365 /opt/airflow/pyspark_scripts/transformacao-posts.py
-    docker exec aiflow-farmarcas-v3-airflow-worker-1 spark-submit --master spark://spark-master:7077 --packages org.apache.hadoop:hadoop-aws:3.3.2,com.amazonaws:aws-java-sdk-pom:1.12.365 /opt/airflow/pyspark_scripts/publicacao-comments.py
+    docker exec poc_airflow_spark-airflow-worker-1 spark-submit --master spark://spark-master:7077 --packages org.apache.hadoop:hadoop-aws:3.3.2,com.amazonaws:aws-java-sdk-pom:1.12.365 /opt/airflow/pyspark_scripts/transformacao-posts.py
+    docker exec poc_airflow_spark-airflow-worker-1 spark-submit --master spark://spark-master:7077 --packages org.apache.hadoop:hadoop-aws:3.3.2,com.amazonaws:aws-java-sdk-pom:1.12.365 /opt/airflow/pyspark_scripts/publicacao-comments.py
 
 ### CONFIGURANDO CONEXAO AIRFLOW
-    docker exec aiflow-farmarcas-v3-airflow-worker-1 airflow connections list
-    docker exec aiflow-farmarcas-v3-airflow-worker-1 airflow connections delete spark_default
-    docker exec aiflow-farmarcas-v3-airflow-worker-1 airflow connections add spark_default --conn-description "Conexão default com Spark"   --conn-host "spark://spark-master" --conn-port "7077"  --conn-type="spark"
+    docker exec poc_airflow_spark-airflow-worker-1 airflow connections list
+    docker exec poc_airflow_spark-airflow-worker-1 airflow connections delete spark_default
+    docker exec poc_airflow_spark-airflow-worker-1 airflow connections add spark_default --conn-description "Conexão default com Spark"   --conn-host "spark://spark-master" --conn-port "7077"  --conn-type="spark"

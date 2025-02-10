@@ -51,7 +51,7 @@ x-airflow-common:
   # and uncomment the "build" line below, Then run `docker-compose build` to build the images.
   #image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:2.10.4}
   build: .
-  env_file: "poc_airflow_spark.env"
+  env_file: "envfile.env"
   environment:
     &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
@@ -244,6 +244,10 @@ services:
         fi
         mkdir -p /sources/logs /sources/dags /sources/plugins
         chown -R "${AIRFLOW_UID}:0" /sources/{logs,dags,plugins}
+        
+        echo "Criando conexão com Spark"
+        airflow connections delete spark_default
+        airflow connections add spark_default --conn-description "Conexão default com Spark"   --conn-host "spark://spark-master" --conn-port "7077"  --conn-type="spark"
         exec /entrypoint airflow version
     # yamllint enable rule:line-length
     environment:
